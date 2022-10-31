@@ -6,11 +6,11 @@ void setup() {
   printer.begin();
 
   printer.clear();
-  plotsquares();  
+  drawSquares();
   printer.printBuffer();
 }
 
-void plotsquares() {
+void drawSquares() {
   for(int row = 0; row < printer.getRows(); row++) {
     bool pixel = false;
     for (int column = 0; column < printer.getColumns(); column++) {
