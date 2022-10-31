@@ -24,18 +24,18 @@ public:
   void setCursor(int column = 0) {
     cursorcolumn = column;
   }
-  
+
   void homeCursor() {
     setCursor();
   }
-  
+
   void setFont(const ZXPrinterFont *font) {
     charheight = pgm_read_byte(&font->charheight);
     charwidth = pgm_read_byte(&font->charwidth);
     chargap = pgm_read_byte(&font->chargap);
     pbitmap = (byte*) pgm_read_word(&font->bitmap);
   }
-  
+
   void drawChar(char ch, int column = -1) {
     if (column<0) column = cursorcolumn;
     byte bitmask = 1<<(charwidth-1);
@@ -47,11 +47,38 @@ public:
     }
     cursorcolumn += charwidth+chargap;
   }
-  
+
   void drawText(char* text, int column = 0) {
     cursorcolumn = column;
     while(char ch = *text++) {
       drawChar(ch);
+    }
+  }
+
+  void drawBitmap(const uint8_t bitmap[], int column, int width, int height) {
+    byte* pbitmap = bitmap;
+    byte row;
+    for(int y=0; row=y%impl().getRows(), y<height; y++) {
+      byte bitmask;
+      byte bitpattern;
+      for(int x=0; x<width; x++) {
+        if (x%8 == 0) {
+          bitmask = 1<<7;
+          bitpattern = pgm_read_byte(pbitmap++);
+        }
+        if (bitpattern & bitmask) {
+          impl().drawPixel(row, column+x, true);
+        }
+        bitmask >>= 1;
+      }
+      if (row==impl().getRows()-1) {
+        impl().printBuffer();
+        impl().clear();
+      }
+    }
+    if (row) {
+      impl().printBuffer(row);
+      impl().clear();
     }
   }
 };

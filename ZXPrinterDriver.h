@@ -159,7 +159,8 @@ public:
     return isdetected();
   }
 
-  bool printBuffer() {
+  bool printBuffer(byte rows = 0) {
+    if (rows == 0) rows = impl().getRows();
     outpixel(false);
     if (!isdetected()) {
       return false;
@@ -170,7 +171,7 @@ public:
     //motorfast();
     waitfornopaper();
     impl().seekPixel();
-    for (byte row = 0; row < impl().getRows(); row++) {
+    for (byte row = 0; row < rows; row++) {
       waitforpaper();
       bool pixelon = false;
       for (byte column = 0; column < impl().getColumns()-1; column++) {
