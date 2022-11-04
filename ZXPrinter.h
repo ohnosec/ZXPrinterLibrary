@@ -1,15 +1,15 @@
 #pragma once
 
 #include "ZXPrinterDriver.h"
-#include "ZXPrinterBuffer.h"
-#include "ZXPrinterWriter.h"
+#include "ZXPrinterCanvas.h"
+#include "ZXPrinterDraw.h"
 #include "ZXPrinterPrint.h"
 
 template<int ROWS>
 class ZXPrinterBase:
   public ZXPrinterShield<ZXPrinterBase<ROWS>>,
-  public ZXPrinterBuffer<ROWS>,
-  public ZXPrinterWriter<ZXPrinterBase<ROWS>>,
+  public ZXPrinterCanvas<ROWS>, 
+  public ZXPrinterDraw<ZXPrinterBase<ROWS>>,
   public ZXPrinterPrint<ZXPrinterBase<ROWS>>
 {
 };

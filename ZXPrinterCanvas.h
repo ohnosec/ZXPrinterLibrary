@@ -1,7 +1,7 @@
 #pragma once
 
 template<int ROWS = 8>
-class ZXPrinterBuffer {
+class ZXPrinterCanvas {
 private:
   static const int rows = ROWS;
   static const int columns = 256;

@@ -14,7 +14,7 @@ template<
   byte D0, byte D1, byte D2, byte D3, byte D4, byte D5, byte D6, byte D7
 >
 class ZXPrinterDriver : public CRTP<T, ZXPrinterDriver> {
-  using CRTP<T, ZXPrinterDriver>::impl;
+  using CRTP<T, ZXPrinterDriver>::self;
 
   // Read data
   const byte IN_PRINTER_READY = D0;
@@ -159,8 +159,8 @@ public:
     return isdetected();
   }
 
-  bool printBuffer(byte rows = 0) {
-    if (rows == 0) rows = impl().getRows();
+  bool printCanvas(byte rows = 0) {
+    if (rows == 0) rows = self().getRows();
     outpixel(false);
     if (!isdetected()) {
       return false;
@@ -170,17 +170,17 @@ public:
     //TODO: we should start out fast and slow down for the last two lines
     //motorfast();
     waitfornopaper();
-    impl().seekPixel();
+    self().seekPixel();
     for (byte row = 0; row < rows; row++) {
       waitforpaper();
       bool pixelon = false;
-      for (byte column = 0; column < impl().getColumns()-1; column++) {
+      for (byte column = 0; column < self().getColumns()-1; column++) {
         outpixel(pixelon);
-        pixelon = impl().readPixel();
+        pixelon = self().readPixel();
         while(!isready());
         outpixel(pixelon);
        }
-      impl().skipPixel(1);
+      self().skipPixel(1);
       outpixel(false);
     }
     readtoggle();

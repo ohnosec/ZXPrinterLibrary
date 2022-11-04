@@ -26,7 +26,7 @@ void setup() {
   printer.begin();
 
   printer.clear();
-  printer.drawBitmap(logo, 0, 256, 72);
+  printer.printBitmap(logo, 0, 256, 72);
 }
 
 void loop() {

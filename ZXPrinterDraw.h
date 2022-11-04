@@ -4,8 +4,8 @@
 #include "crtp.h"
 
 template<typename T>
-class ZXPrinterWriter :  public CRTP<T, ZXPrinterWriter> {
-  using CRTP<T, ZXPrinterWriter>::impl;
+class ZXPrinterDraw :  public CRTP<T, ZXPrinterDraw> {
+  using CRTP<T, ZXPrinterDraw>::self;
 
   int cursorcolumn = 0;
   int charheight = 0;
@@ -42,7 +42,7 @@ public:
     for(int row=0; row<charheight; row++) {
       for(int bitcount=0; bitcount<charwidth; bitcount++) {
         bool isset = getfontmask(ch, row) & (bitmask >> bitcount);
-        impl().drawPixel(row, column+bitcount, isset);
+        self().drawPixel(row, column+bitcount, isset);
       }
     }
     cursorcolumn += charwidth+chargap;
@@ -52,33 +52,6 @@ public:
     cursorcolumn = column;
     while(char ch = *text++) {
       drawChar(ch);
-    }
-  }
-
-  void drawBitmap(const uint8_t bitmap[], int column, int width, int height) {
-    byte* pbitmap = bitmap;
-    byte row;
-    for(int y=0; row=y%impl().getRows(), y<height; y++) {
-      byte bitmask;
-      byte bitpattern;
-      for(int x=0; x<width; x++) {
-        if (x%8 == 0) {
-          bitmask = 1<<7;
-          bitpattern = pgm_read_byte(pbitmap++);
-        }
-        if (bitpattern & bitmask) {
-          impl().drawPixel(row, column+x, true);
-        }
-        bitmask >>= 1;
-      }
-      if (row==impl().getRows()-1) {
-        impl().printBuffer();
-        impl().clear();
-      }
-    }
-    if (row) {
-      impl().printBuffer(row);
-      impl().clear();
     }
   }
 };
