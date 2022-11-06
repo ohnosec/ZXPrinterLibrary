@@ -25,7 +25,6 @@ ZXPrinter printer;
 void setup() {
   printer.begin();
 
-  printer.clear();
   printer.printBitmap(logo, 0, 256, 72);
 }
 

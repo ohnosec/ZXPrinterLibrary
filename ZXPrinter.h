@@ -8,7 +8,7 @@
 template<int ROWS>
 class ZXPrinterBase:
   public ZXPrinterShield<ZXPrinterBase<ROWS>>,
-  public ZXPrinterCanvas<ROWS>, 
+  public ZXPrinterCanvas<ROWS>,
   public ZXPrinterDraw<ZXPrinterBase<ROWS>>,
   public ZXPrinterPrint<ZXPrinterBase<ROWS>>
 {

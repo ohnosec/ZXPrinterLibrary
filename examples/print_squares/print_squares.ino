@@ -7,7 +7,7 @@ void setup() {
 
   printer.clear();
   drawSquares();
-  printer.printCanvas();
+  printer.flush();
 }
 
 void drawSquares() {

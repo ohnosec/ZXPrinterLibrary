@@ -3,8 +3,9 @@
 #include <Arduino.h>
 
 typedef struct {
-  byte charheight;
-  byte charwidth;
-  byte chargap;
-  byte* bitmap;
+  const byte charheight;
+  const byte charwidth;
+  const byte chargap;
+  const byte linegap;
+  const byte* bitmap;
 } ZXPrinterFont;

@@ -966,4 +966,4 @@ const byte ZXPrinterFontTS2068Bitmap[][8] PROGMEM = {
   },
 };
 
-const ZXPrinterFont ZXPrinterFontTS2068 PROGMEM = {8, 8, 0, (byte*) ZXPrinterFontTS2068Bitmap};
+const ZXPrinterFont ZXPrinterFontTS2068 PROGMEM = {8, 8, 0, 1, (byte*) ZXPrinterFontTS2068Bitmap};

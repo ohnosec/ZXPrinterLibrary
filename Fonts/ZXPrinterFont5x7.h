@@ -870,4 +870,4 @@ const byte ZXPrinterFont5x7Bitmap[][7] PROGMEM = {
   },
 };
 
-const ZXPrinterFont ZXPrinterFont5x7 PROGMEM = {7, 5, 2, (byte*) ZXPrinterFont5x7Bitmap};
+const ZXPrinterFont ZXPrinterFont5x7 PROGMEM = {7, 5, 2, 1, (byte*) ZXPrinterFont5x7Bitmap};

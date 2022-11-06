@@ -966,4 +966,4 @@ const byte ZXPrinterFontAmstradCPCBitmap[][8] PROGMEM = {
   },
 };
 
-const ZXPrinterFont ZXPrinterFontAmstradCPC PROGMEM = {8, 8, 1, (byte*) ZXPrinterFontAmstradCPCBitmap};
+const ZXPrinterFont ZXPrinterFontAmstradCPC PROGMEM = {8, 8, 1, 1, (byte*) ZXPrinterFontAmstradCPCBitmap};

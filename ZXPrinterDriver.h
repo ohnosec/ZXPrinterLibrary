@@ -73,7 +73,7 @@ class ZXPrinterDriver : public CRTP<T, ZXPrinterDriver> {
     return value;
   }
 
-  inline void outpixel(bool ison) {
+  inline void outpixel(const bool ison) {
     if(ison) {
       digitalWriteFast(OUT_PRINTER_PIXEL_ON, HIGH);
     } else {
@@ -124,6 +124,7 @@ class ZXPrinterDriver : public CRTP<T, ZXPrinterDriver> {
     if (state) motoron();
     else motoroff();
   }
+
 public:
   void begin() {
     #if ZXPSVERSION < 2
@@ -159,8 +160,9 @@ public:
     return isdetected();
   }
 
-  bool printCanvas(byte rows = 0) {
-    if (rows == 0) rows = self().getRows();
+  bool printCanvas(int rows = -1, const bool print = true) {
+    if (rows == 0) return;
+    if (rows < 0) rows = self().getRows();
     outpixel(false);
     if (!isdetected()) {
       return false;
@@ -176,7 +178,7 @@ public:
       bool pixelon = false;
       for (byte column = 0; column < self().getColumns()-1; column++) {
         outpixel(pixelon);
-        pixelon = self().readPixel();
+        if (print) pixelon = self().readPixel();
         while(!isready());
         outpixel(pixelon);
        }
