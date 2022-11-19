@@ -10,6 +10,7 @@ private:
 
   byte* pixelptr = (byte*) pixels;
   byte pixelmask = 0x80;
+  const byte* pixelend = (byte*) pixels + sizeof(pixels);
 
   inline int makeindex(int row, int column) __attribute__((always_inline)) {
     return row*(columns/8)+column/8;
@@ -23,7 +24,11 @@ private:
     pixelmask >>= 1;
     if(!pixelmask) {
       pixelmask = 0x80;
-      if (pixelptr) ++pixelptr;
+      if (pixelptr) {
+        if (++pixelptr >= pixelend) {
+          pixelptr = 0;
+        }
+      }
     }
   }
 

@@ -5,13 +5,20 @@
 template<typename T>
 class ZXPrinterPrint : public CRTP<T, ZXPrinterPrint>, public Print {
   using CRTP<T, ZXPrinterPrint>::self;
+
+  const char carriagereturn = '\r';
+
 public:
+  char newline = '\n';
+
   virtual size_t write(uint8_t c) {
-    if (c == '\n') {
+    if (c == newline) {
       flush(self().getCharHeight());
       rowFeed(self().getLineGap());
       self().homeCursor();
-    } else if (c != '\r') {
+    } else if (c == carriagereturn) {
+      self().homeCursor();
+    } else {
       self().drawChar(c);
     }
     return 1;

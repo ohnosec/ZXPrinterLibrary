@@ -124,7 +124,7 @@ class ZXPrinterDriver : public CRTP<T, ZXPrinterDriver> {
     if (state) motoron();
     else motoroff();
   }
-
+  
 public:
   void begin() {
     #if ZXPSVERSION < 2
