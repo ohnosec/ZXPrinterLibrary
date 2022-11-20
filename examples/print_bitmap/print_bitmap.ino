@@ -2,11 +2,14 @@
 #include "bitmap.h"
 
 /*
-Bitmaps must be stored in program memory (PROGMEM). See the bitmap.h file for an example.
+Prints a bitmap from the bitmap.h file.
+
+The bitmap must be stored in program memory (PROGMEM). See the bitmap.h file for an example.
+
 There is a utility that will convert monochrome bitmaps into the correct format at
 http://javl.github.io/image2cpp/
 
-The process is:
+To convert a bitmap file into the correct format:
 
 - create a monochrome bitmap file up to 256 pixels wide
 - browse the above address
