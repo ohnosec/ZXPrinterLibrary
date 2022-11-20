@@ -11,7 +11,8 @@ template<
   typename T,
   byte A2, byte A7,
   byte IORQ, byte WR, byte RD,
-  byte D0, byte D1, byte D2, byte D3, byte D4, byte D5, byte D6, byte D7
+  byte D0, byte D1, byte D2, byte D3, byte D4, byte D5, byte D6, byte D7,
+  byte CTS
 >
 class ZXPrinterDriver : public CRTP<T, ZXPrinterDriver> {
   using CRTP<T, ZXPrinterDriver>::self;
@@ -131,6 +132,8 @@ public:
       digitalWriteFast(A2, LOW);
       digitalWriteFast(A7, HIGH);
       digitalWriteFast(IORQ, LOW);
+    #else 
+      digitalWriteFast(CTS, LOW);
     #endif
     digitalWriteFast(WR, HIGH);
     digitalWriteFast(RD, HIGH);
@@ -139,6 +142,8 @@ public:
       pinModeFast(A2, OUTPUT);
       pinModeFast(A7, OUTPUT);
       pinModeFast(IORQ, OUTPUT);
+    #else 
+      pinModeFast(CTS, OUTPUT);
     #endif
     pinModeFast(WR, OUTPUT);
     pinModeFast(RD, OUTPUT);
@@ -154,6 +159,18 @@ public:
     pinModeFast(IN_PRINTER_ON_PAPER, INPUT);
     pinModeFast(OUT_PRINTER_MOTOR_SLOW, OUTPUT);
     pinModeFast(OUT_PRINTER_MOTOR_OFF, OUTPUT);
+  }
+
+  inline void ctsOn() {
+    #if ZXPSVERSION >= 2
+      digitalWriteFast(CTS, LOW);
+    #endif
+  }
+
+  inline void ctsOff() {
+    #if ZXPSVERSION >= 2
+      digitalWriteFast(CTS, HIGH);
+    #endif
   }
 
   bool isConnected() {
@@ -193,15 +210,15 @@ public:
 
 #if ZXPSVERSION < 2
   #if defined(__AVR_ATmega2560__)
-    template<typename T> using ZXPrinterShield = ZXPrinterDriver<T, 21, 28, 38, 36, 37, 49, 48, 47, 44, 43, 45, 46, A13>;
+    template<typename T> using ZXPrinterShield = ZXPrinterDriver<T, 21, 28, 38, 36, 37, 49, 48, 47, 44, 43, 45, 46, A13, 0>;
   #elif defined(__AVR_ATmega328P__)
-    template<typename T> using ZXPrinterShield = ZXPrinterDriver<T, A0, A1, 10, 12, 11, 2, 3, 4, 5, 6, 7, 8, 9>;
+    template<typename T> using ZXPrinterShield = ZXPrinterDriver<T, A0, A1, 10, 12, 11, 2, 3, 4, 5, 6, 7, 8, 9, 0>;
   #else
     #error Unsupported board
   #endif
 #else
   #if defined(__AVR_ATmega328P__)
-    template<typename T> using ZXPrinterShield = ZXPrinterDriver<T, -1, -1, -1, 9, 8, 3, 4, 5, -1, -1, -1, 6, 7>;
+    template<typename T> using ZXPrinterShield = ZXPrinterDriver<T, -1, -1, -1, 9, 8, 3, 4, 5, -1, -1, -1, 6, 7, 2>;
   #else
     #error Unsupported board
   #endif
